@@ -1,43 +1,41 @@
-/*
- Chris Johnson
- 4/20/20
-CS 4050-001
-Project 1) sums to N
-    - Program to print out all integer combinations of a number N.
-*/
-
-import java.util.Scanner;
 import java.util.*;
+import java.lang.*;
+
 
 public class SumsToN {
+
+    static void build (int[] numbers, int n, int position, ArrayList<Integer> combinations) {
+        if (n == 0) {
+            print(combinations);
+            return;
+        }
+        for (int i = position; i < numbers.length; i++){
+            int newN = n - numbers[i];
+            if (newN >= 0) {
+                combinations.add(numbers[i]);
+                build(numbers, newN, i, combinations);
+                combinations.remove(combinations.size() - 1);
+            }
+        }
+    }
+
+    static void print (ArrayList<Integer> combinations) {
+        System.out.print(combinations.get(0));
+        for(int i = 1; i < combinations.size(); i++) {
+            System.out.print(" + " + combinations.get(i));
+        }
+        System.out.println();
+    }
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         System.out.println("Input a number N.");
-        //int n = in.nextInt();
-        ArrayList<Integer> numsList = new ArrayList<Integer>();
-
-        // these are just for testing
-        int exInt = 3;
-        numsList.add(1);
-        numsList.add(2);
-        numsList.add(3);
-        numsList.add(4);
-        listTotal(numsList);
-
-
-
-
+        int n = in.nextInt();
+        int[] numbers = new int[n];
+        for (int i = 0; i< n; i++) numbers[i] = i + 1;
+        int position = 0;
+        ArrayList<Integer> possibilities = new ArrayList<Integer>();
+        build(numbers, n, position, possibilities);
+        System.exit(0);
     }
-
-    public static void listTotal(ArrayList<Integer> nums) {
-        System.out.print(nums.get(0));
-        for(int i = 1; i < nums.size(); i++) {
-            System.out.print(" + " + nums.get(i));
-        }
-    }
-
-
-
-
 }
